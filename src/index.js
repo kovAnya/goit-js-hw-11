@@ -100,7 +100,11 @@ function renderGallery(imageHitsArray) {
   galleryEl.insertAdjacentHTML('beforeend', galleryMarkup.join(''));
 }
 
-function onLoadMore() {
+async function onLoadMore() {
   page += 1;
-  fetchImages(searchValue, page);
+  await fetchImages(searchValue, page);
+  window.scrollBy({
+    top: galleryEl.firstElementChild.getBoundingClientRect().height * 2,
+    behavior: 'smooth',
+  });
 }
