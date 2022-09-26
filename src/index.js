@@ -22,7 +22,12 @@ async function onFormSubmit(event) {
   viewedHits = 0;
   page = 1;
   galleryEl.innerHTML = '';
-  searchValue = event.target.elements.searchQuery.value.replaceAll(' ', '+');
+  searchValue = event.target.elements.searchQuery.value
+    .trim()
+    .replaceAll(' ', '+');
+  if (!searchValue) {
+    return;
+  }
   fetchImages(searchValue, page, true);
   loadMoreBtn.addEventListener('click', onLoadMore);
 }
