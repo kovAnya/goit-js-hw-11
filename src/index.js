@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import axios from 'axios';
 
 const formEl = document.querySelector('#search-form');
 const loadMoreBtn = document.querySelector('.load-more');
@@ -33,9 +34,11 @@ async function onFormSubmit(event) {
 }
 
 async function fetchImages(searchValue, page, firstFetch = false) {
-  const foundInfo = await fetch(
-    `https://pixabay.com/api/?key=${ApiKey}&q=${searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
-  ).then(resp => resp.json());
+  const foundInfo = await axios
+    .get(
+      `https://pixabay.com/api/?key=${ApiKey}&q=${searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    )
+    .then(resp => resp.data);
   const imageHitsArray = (await foundInfo).hits;
   const totalHits = (await foundInfo).totalHits;
   viewedHits += imageHitsArray.length;
